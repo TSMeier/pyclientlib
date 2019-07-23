@@ -10,33 +10,33 @@ class FragmentCollection:
     def __init__(self, env):
         self.env = env
 
-        self.url = self.env.getBaseUrl() + "/fragments"
+        self.url = self.env.get_base_url() + "/fragments"
 
-    def getAllByJob(self, jobId):
-        if not jobId:
-            raise ApiError("jobId not given")
+    def get_all_by_job(self, job_id):
+        if not job_id:
+            raise ApiError("job_id not given")
 
-        resp = requests.get(self.url + "/job/" + jobId, verify=False)
-
-        if resp.status_code != 200:
-            return False
-
-        return resp.json()
-
-    def getAllByStep(self, jobId, step):
-        if not jobId:
-            raise ApiError("jobId not given")
-
-        resp = requests.get(self.url + "/job/" + jobId + "/step/" + str(step), verify=False)
+        resp = requests.get(self.url + "/job/" + job_id, verify=False)
 
         if resp.status_code != 200:
             return False
 
         return resp.json()
 
-    def getLatestByJob(self, jobId, name, handle):
-        if not jobId:
-            raise ApiError("jobId not given")
+    def get_all_by_step(self, job_id, step):
+        if not job_id:
+            raise ApiError("job_id not given")
+
+        resp = requests.get(self.url + "/job/" + job_id + "/step/" + str(step), verify=False)
+
+        if resp.status_code != 200:
+            return False
+
+        return resp.json()
+
+    def get_latest_by_job(self, job_id, name, handle):
+        if not job_id:
+            raise ApiError("job_id not given")
 
         if not name:
             raise ApiError("name not given")
@@ -44,12 +44,12 @@ class FragmentCollection:
         if not handle:
             raise ApiError("name not given")
 
-        resp = requests.get(self.url + "/job/" + jobId + "/name/" + name, verify=False)
+        resp = requests.get(self.url + "/job/" + job_id + "/name/" + name, verify=False)
         return self.__download__(resp, handle)
 
-    def getLatestByProject(self, projectId, name, handle):
-        if not projectId:
-            raise ApiError("projectId not given")
+    def get_latest_by_project(self, project_id, name, handle):
+        if not project_id:
+            raise ApiError("project_id not given")
 
         if not name:
             raise ApiError("name not given")
@@ -57,25 +57,25 @@ class FragmentCollection:
         if not handle:
             raise ApiError("file handle not given")
 
-        resp = requests.get(self.url + "/project/" + projectId + "/name/" + name, stream=True, verify=False)
+        resp = requests.get(self.url + "/project/" + project_id + "/name/" + name, stream=True, verify=False)
         return self.__download__(resp, handle)
 
-    def getById(self, fragmentId, handle):
-        if not fragmentId:
-            raise ApiError("fragmentId not given")
+    def get_by_id(self, fragment_id, handle):
+        if not fragment_id:
+            raise ApiError("fragment_id not given")
 
         if not handle:
             raise ApiError("file handle not given")
 
-        resp = requests.get(self.url + "/" + fragmentId, stream=True, verify=False)
+        resp = requests.get(self.url + "/" + fragment_id, stream=True, verify=False)
         return self.__download__(resp, handle)
 
-    def uploadEnv(self, fragment, handle):
+    def upload_env(self, fragment, handle):
         self.upload(self.env.job, self.env.step, fragment, handle)
 
-    def upload(self, jobId, step, fragment, handle):
-        if not jobId:
-            raise ApiError("jobId not given")
+    def upload(self, job_id, step, fragment, handle):
+        if not job_id:
+            raise ApiError("job_id not given")
 
         if "name" not in fragment:
             raise ApiError("name not in fragment")
@@ -95,7 +95,7 @@ class FragmentCollection:
             "BinaryData": handle
         }
 
-        resp = requests.post(self.url + "/job/" + jobId + "/step/" + str(step), data=data, files=files, verify=False)
+        resp = requests.post(self.url + "/job/" + job_id + "/step/" + str(step), data=data, files=files, verify=False)
 
         if resp.status_code != 200:
             print(resp.text)

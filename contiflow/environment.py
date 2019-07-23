@@ -13,14 +13,14 @@ class Environment:
         self.job = os.environ.get('CONTIFLOW_JOB')
         self.step = os.environ.get('CONTIFLOW_STEP')
 
-    def getBaseUrl(self):
+    def get_base_url(self):
         return self.host + "/api"
 
-    def getProject(self):
+    def get_project(self):
         return self.project
 
-    def getJob(self):
+    def get_job(self):
         return self.job
 
-    def getStep(self):
+    def get_step(self):
         return self.step

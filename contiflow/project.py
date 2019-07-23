@@ -3,9 +3,10 @@ import requests
 from .apierror import ApiError
 from .environment import Environment
 
+
 class ProjectCollection:
     env = Environment()
-    
+
     def __init__(self, env):
         self.env = env
 
@@ -13,13 +14,13 @@ class ProjectCollection:
 
     def getAll(self):
         resp = requests.get(self.url, verify=False)
-        
+
         if resp.status_code != 200:
             return False
-        
+
         return resp.json()
 
-    def getById(self, projectId):        
+    def getById(self, projectId):
         if not projectId:
             raise ApiError("project not given")
 
@@ -49,7 +50,7 @@ class ProjectCollection:
         resp = requests.put(self.url + "/" + projectId, json=project, verify=False)
         if resp.status_code != 200:
             return False
-        
+
         return resp.json()
 
     def delete(self, projectId):
@@ -57,7 +58,7 @@ class ProjectCollection:
             raise ApiError("project id ist not given")
 
         resp = requests.delete(self.url + "/" + projectId, verify=False)
-        
+
         return resp.status_code == 200
 
     def check(self, project):
@@ -69,4 +70,3 @@ class ProjectCollection:
 
         if 'gitRepository' not in project or project['gitRepository'] == "":
             raise ApiError('git repository not set')
-

@@ -10,19 +10,21 @@ from .fragment import FragmentCollection
 
 requests.packages.urllib3.disable_warnings()
 
+
 def from_env():
     env = Environment()
 
     return Client(env)
 
-class Client:
-    env:Environment
 
-    Workers:WorkerCollection
-    Projects:ProjectCollection
-    Jobs:JobCollection
-    Scheduler:Scheduler
-    Fragments:FragmentCollection
+class Client:
+    env: Environment
+
+    Workers: WorkerCollection
+    Projects: ProjectCollection
+    Jobs: JobCollection
+    Scheduler: Scheduler
+    Fragments: FragmentCollection
 
     def __init__(self, environment):
         self.env = environment

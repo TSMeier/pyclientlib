@@ -1,5 +1,6 @@
 import os
 
+
 class Environment:
     host = None
     project = None
@@ -17,11 +18,9 @@ class Environment:
 
     def getProject(self):
         return self.project
-    
+
     def getJob(self):
         return self.job
 
     def getStep(self):
         return self.step
-
-

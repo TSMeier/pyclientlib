@@ -3,6 +3,7 @@ import requests
 from .apierror import ApiError
 from .environment import Environment
 
+
 class FragmentCollection:
     env = Environment()
 
@@ -11,7 +12,7 @@ class FragmentCollection:
 
         self.url = self.env.getBaseUrl() + "/fragments"
 
-    def getAllByJob(self, jobId):  
+    def getAllByJob(self, jobId):
         if not jobId:
             raise ApiError("jobId not given")
 
@@ -22,7 +23,7 @@ class FragmentCollection:
 
         return resp.json()
 
-    def getAllByStep(self, jobId, step):  
+    def getAllByStep(self, jobId, step):
         if not jobId:
             raise ApiError("jobId not given")
 
@@ -33,7 +34,6 @@ class FragmentCollection:
 
         return resp.json()
 
-    
     def getLatestByJob(self, jobId, name, handle):
         if not jobId:
             raise ApiError("jobId not given")
@@ -47,7 +47,6 @@ class FragmentCollection:
         resp = requests.get(self.url + "/job/" + jobId + "/name/" + name, verify=False)
         return self.__download__(resp, handle)
 
-    
     def getLatestByProject(self, projectId, name, handle):
         if not projectId:
             raise ApiError("projectId not given")
@@ -78,13 +77,13 @@ class FragmentCollection:
         if not jobId:
             raise ApiError("jobId not given")
 
-        if not "name" in fragment:
+        if "name" not in fragment:
             raise ApiError("name not in fragment")
 
-        if not "filename" in fragment:
+        if "filename" not in fragment:
             raise ApiError("filename not in fragment")
 
-        if not "type" in fragment:
+        if "type" not in fragment:
             raise ApiError("type not in fragment")
 
         data = {
@@ -103,7 +102,6 @@ class FragmentCollection:
             return False
 
         return resp.json()
-        
 
     def __download__(self, resp, handle):
         if resp.status_code != 200:
@@ -112,8 +110,8 @@ class FragmentCollection:
         for chunk in resp.iter_content(chunk_size=1024):
             if not chunk:
                 continue
-            
+
             handle.write(chunk)
             handle.flush()
-        
+
         return True
